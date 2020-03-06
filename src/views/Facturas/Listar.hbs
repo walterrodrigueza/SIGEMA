@@ -1,0 +1,55 @@
+
+
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20"></body>
+	<nav class="navbar navbar-dark bg-dark">
+		<a href="" class="navbar-brand mx-auto">Facturas{{trama}}</a>
+	</nav>
+
+	<div class="container">
+
+		<div class="row" >
+		<div  class="col-xs-12 col-sm-10 col-md-10 text-center"  style="	padding : 4px;
+					height : 800px;
+					overflow : auto; ">
+
+			<table class="table table-striped table-bordered"; >
+			<tr>
+				<th>Factura</th>
+				<th>Año</th>
+				<th>Mes</th>
+				<th>Operador</th>
+				<th>Total</th>
+				<th>Clave FISCO</th>				
+			</tr>
+			{{#each facturas}}
+				<tr>
+					<td> <a href="/facturas/{{Factura}}"><button type="button" class="btn btn-outline-info">{{Factura}}</button> </a>  </td>
+					<td>{{Año}}</td>
+					<td>{{Mes}}</td>
+					<td>{{Operador}}</td>
+					<td>{{Total}}</td>
+					<td>{{clave_fisco}}</td>
+				</tr>
+
+			{{/each}}
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-2 col-md-2 card">
+
+			<form class="card-body" href="/"  method="post">
+				<h3 class="card-title">Consultar Fecha Específica</h3>
+				<div class="form-group"> <!-- Date input -->
+					<label class="control-label" for="date">Fecha</label>
+					<input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" value="MM/DD/YYYY"/>
+				</div>
+
+
+				<div class="form-group"> <!-- Submit button -->
+					<button class="btn btn-primary " name="submit" type="submit">Submit</button>
+				</div>
+			</form>	
+		</div>
+	</div>
+</body>

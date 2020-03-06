@@ -1,0 +1,271 @@
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+	
+
+	<nav class="navbar navbar-dark bg-dark">
+		<a href="/facturas" class="navbar-brand mx-auto">Factura {{Factura}}</a>
+	</nav>
+
+
+	<div class="container">
+		<br>
+
+
+		
+		<script>
+			// CODIGO PARA MENSAJES
+			function aaa() {
+				swal.fire({
+					type: 'error',
+					title: "Auto close alert!",
+					text: "se cerra en 5segundos",
+					confirmButtonColor: "#a90",
+					showConfirmButton: true,
+					backdrop: `
+						rgba(0,0,123,0.4)
+						center left
+						no-repeat
+						`
+				});
+			}
+
+			function formato_numero(Total){
+				Total = Intl.NumberFormat("de-DE").format(Total);
+				return Total
+			}
+
+			function regenerarTramas() {
+					
+
+				const swalWithBootstrapButtons = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-danger'
+					},
+					buttonsStyling: false,
+				})
+
+				swalWithBootstrapButtons.fire({
+					title: 'Desea regenerar las tramas contables?',
+					text: "Deber tener los archivos de tramas cerrados!",
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Si, reprocesarlos!',
+					cancelButtonText: 'No, cancelar!',
+					reverseButtons: true
+				}).then((result) => {
+					if (result.value) {
+						swalWithBootstrapButtons.fire(
+							'Listo!',
+							'Las tramas contables han sido reprocesadas',
+							'success'
+						)
+						// Espera 2 segundos para que se pueda ver el mensaje
+						setTimeout(() => {
+							window.location.href = "regeneraTramas/"
+						}, 2000)
+
+
+					} else if (
+						// Read more about handling dismissals
+						result.dismiss === Swal.DismissReason.cancel
+					) {
+						swalWithBootstrapButtons.fire(
+							'Cancelado',
+							'Las tramas no fueron reprocesadas',
+							'error'
+						)
+
+					}
+				})
+
+
+
+			}
+
+			function enviarFacturaFISCO(factura, clave_fisco) {
+					if (clave_fisco == 'Enviar a FISCO') {
+
+						const swalWithBootstrapButtons = Swal.mixin({
+							customClass: {
+								confirmButton: 'btn btn-success',
+								cancelButton: 'btn btn-danger'
+							},
+							buttonsStyling: false,
+						})
+
+						swalWithBootstrapButtons.fire({
+							title: 'Desea enviar la factura ' + factura + ' a FISCO?',
+							text: "Con esto estaría aprobando la factura!",
+							type: 'warning',
+							showCancelButton: true,
+							confirmButtonText: 'Si, enviarla!',
+							cancelButtonText: 'No, cancelar!',
+							reverseButtons: true
+						}).then((result) => {
+							if (result.value) {
+								swalWithBootstrapButtons.fire(
+									'Enviada!',
+									'Su factura ha sido enviada a FISCO.',
+									'success'
+								)
+								// Espera 2 segundos para que se pueda ver el mensaje
+								setTimeout(() => {
+									window.location.href = "envioFisco/"+factura
+								}, 2000)
+
+
+							} else if (
+								// Read more about handling dismissals
+								result.dismiss === Swal.DismissReason.cancel
+							) {
+								swalWithBootstrapButtons.fire(
+									'Cancelado',
+									'Su factura no ha sido enviada',
+									'error'
+								)
+							
+								
+							}
+						})
+
+					} else {
+						if (clave_fisco == 'Enviada') {
+							Swal.fire({
+								type: 'success',
+								title: 'Ya la factura fue enviada a FISCO. Favor esperar la respuesta.',
+								showConfirmButton: false,
+								timer: 2000
+							})
+						} else {
+							Swal.fire({
+								type: 'success',
+								title: 'Ya la factura se encuentra en FISCO',
+								showConfirmButton: false,
+								timer: 2000
+							})
+
+							// Espera 2 segundos para que se pueda ver el mensaje
+							setTimeout(() => {
+								window.location.href = "verArchivos/"+factura
+							}, 2000)	
+						}
+
+						
+					}
+
+				}
+		</script>
+
+
+		<H2>Factura</H2 <div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 text-center" style="	padding : 4px;
+						height : 150px;
+						overflow : auto; ">
+		
+
+			<table class="table table-striped table-bordered" ;>
+				<tr>
+					<th>Factura</th>
+					<th>Año</th>
+					<th>Mes</th>
+					<th>Operador</th>
+					<th>Total</th>
+					<th>Clave FISCO</th>
+				</tr>
+				{{#each facturas}}
+				<tr>
+					<td> <a href="/facturas/{{Factura}}"></a>{{Factura}} </a> </td>
+					<td>{{Año}}</td>
+					<td>{{Mes}}</td>
+					<td>{{Operador}}</td>
+					<td>{{Total}}</script>
+					</td>
+					<td><a onclick="enviarFacturaFISCO('{{Factura}}','{{clave_fisco}}')"><button name="btn_enviaFISCO" type="button" class="btn btn-primary">{{clave_fisco}}</button></a></td>
+				</tr>
+
+				{{/each}}
+			</table>
+		
+		</div>
+	</div>
+
+
+	<div class="container">
+		<H2>Detalle</H2>
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-12 col-md-12 text-center" style="	padding : 4px;
+							height : 250px;
+							overflow : auto; ">
+
+				<table class="table table-striped table-bordered" ;>
+					<tr>
+						<th>Cantidad</th>
+						<th>Unidad</th>
+						<th>DetalleFactura</th>
+						<th>PrecioUnitario</th>
+						<th>Total</th>
+						<th>Idcontable</th>
+						<th>SaldoContable</th>
+						<th>idGrupo</th>
+					</tr>
+					{{#each detalle}}
+					<tr>
+						<td>{{Cantidad}}</td>
+						<td>{{Unidad}}</td>
+						<td>{{DetalleFactura}}</td>
+						<td>{{PrecioUnitario}}</td>
+						<td>{{Total}}</td>
+						<td>{{Idcontable}}</td>
+						<td>{{SaldoContable}}</td>
+						<td>{{idGrupo}}</td>
+					</tr>
+					{{/each}}
+				</table>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="container">
+		<H2>Tramas</H2>
+		<a onclick="regenerarTramas()"><button name="btn_RegenerarTramas" type="button" class="btn btn-primary">Regenerar</button></a>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 text-center" style="	padding : 4px;
+							height : 200px;
+							overflow : auto; ">
+
+				<table class="table table-striped table-bordered" ;>
+					<tr>
+						<th>Tipo_Trama</th>
+						<th>Num_Control</th>
+						<th>Codigo_SAP</th>
+						<th>Documento</th>
+						<th>Monto</th>
+						<th>Comentario</th>
+					</tr>
+					{{#each tramas}}
+					<tr>
+						<td>{{Tipo_Trama}}</td>
+						<td>{{Num_Control}}</td>
+						<td>{{Codigo_SAP}}</td>
+						<td>{{Documento}}</td>
+						<td>{{Monto}}</td>
+						<td>{{Comentario}}</td>
+					</tr>
+					{{/each}}
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+
+
+
+
+

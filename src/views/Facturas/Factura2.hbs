@@ -1,0 +1,120 @@
+
+{{!-- STYLES --}}
+  <link rel="stylesheet" href="/css/demos.css">
+<script src="/js/db.js"></script>
+
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+	
+
+	<nav class="navbar navbar-dark bg-dark">
+		<a href="/facturas" class="navbar-brand mx-auto">Factura {{Factura}}</a>
+        
+	</nav>
+
+    
+    <script>console.log("Hello world!");</script>
+    
+
+    {{#each facturas}}
+    <script>
+        console.log('{{Name}}')        
+    </script>
+    {{/each}}
+
+
+
+	<div id="jsGrid">{{db.countries}}</div>
+		
+
+
+
+    <script>
+
+
+        $(function() {
+
+            /*
+            $("#jsGrid").jsGrid({
+                height: "70%",
+                width: "100%",
+                filtering: true,
+                editing: true,
+                inserting: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 15,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete the client?",
+                //controller: db,
+                data: clients,
+                fields: [
+                    { name: "Name", type: "text", width: 150 },
+                    { type: "control" }
+                ]
+            });
+            */
+
+
+
+            $("#jsGrid").jsGrid({
+                height: "70%",
+                width: "100%",
+                filtering: true,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete client?",
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/facturas2/listar",
+                            data: filter
+                        });
+                    },
+                    insertItem: function(item) {
+                        return $.ajax({
+                            type: "POST",
+                            url: "/clients",
+                            data: item
+                        });
+                    },
+                    updateItem: function(item) {
+                        return $.ajax({
+                            type: "PUT",
+                            url: "/clients",
+                            data: item
+                        });
+                    },
+                    deleteItem: function(item) {
+                        return $.ajax({
+                            type: "DELETE",
+                            url: "/clients",
+                            data: item
+                        });
+                    }
+                },
+                fields: [
+                    { name: "Factura", type: "text", width: 150 },
+                    { name: "Total", type: "text", width: 150 },
+                    { name: "Año", type: "text", width: 150 },
+                    { name: "Mes", type: "text", width: 150 },
+                    { type: "control" }
+                ]
+            });
+        });
+    </script>
+
+</body>
+
+
+
+
+

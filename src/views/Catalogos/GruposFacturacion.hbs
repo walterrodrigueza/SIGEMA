@@ -1,0 +1,132 @@
+
+{{!-- STYLES --}}
+  <link rel="stylesheet" href="/css/demos.css">
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20"></body>
+	<nav class="navbar navbar-dark bg-dark">
+		<a href="" class="navbar-brand mx-auto">Grupos de Facturación</a>
+	</nav>
+
+
+
+
+
+
+	<div id="jsGrid"></div>
+		
+	<script>
+		$(function() {
+            $("#jsGrid").jsGrid({
+                height: "70%",
+                width: "100%",
+                filtering: true,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageloading: true,
+                pageSize: 14,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete client?",
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/GruposFacturacion/listar",
+                            data: filter
+                        });
+                    },
+                    insertItem: function(item) {
+                        return $.ajax({
+                            type: "POST",
+                            url: "/GruposFacturacion/listar",
+                            data: item
+                        });
+                    },
+                    updateItem: function(item) {
+                        return $.ajax({
+                            type: "PUT",
+                            url: "/clients",
+                            data: item
+                        });
+                    },
+                    deleteItem: function(item) {
+                        return $.ajax({
+                            type: "DELETE",
+                            url: "/clients",
+                            data: item
+                        });
+                    }
+                },
+                fields: [
+                    { name: "IDGRUPO", type: "text", width: 150 },
+                    { type: "control" }
+                ]
+            });
+        });
+	</script>
+
+
+
+
+
+
+
+
+
+
+	<div class="container">
+
+		<div class="row" >
+		<div  class="col-xs-12 col-sm-10 col-md-9 text-center"  style="	padding : 4px;
+					height : 800px;
+					overflow : auto; ">
+
+			<table class="table table-striped table-bordered"; >
+			<tr>
+				<th>Fecha</th>
+				<th>Compra</th>
+				<th>Venta</th>
+				<th>TBP</th>
+				<th>Prime</th>
+				<th>Compra S.Público</th>
+				<th>Venta S.Público</th>
+				<th>Salario Base</th>
+			</tr>
+			{{#each usuarios}}
+				<tr>
+					<td >{{fecha}}</td>
+					<td>{{compra}}</td>
+					<td>{{venta}}</td>
+					<td>{{tbp}}</td>
+					<td>{{prime}}</td>
+					<td>{{compra_Sector_Publico}}</td>
+					<td>{{venta_Sector_Publico}}</td>
+					<td>{{salario_base}}</td>
+				</tr>
+
+			{{/each}}
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-sm-2 col-md-3 card">
+
+			<form class="card-body" href="/"  method="post">
+				<h3 class="card-title">Consultar Fecha Específica</h3>
+				<div class="form-group"> <!-- Date input -->
+					<label class="control-label" for="date">Fecha</label>
+					<input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" value="MM/DD/YYYY"/>
+				</div>
+				<div class="form-group"> <!-- Submit button -->
+					<button class="btn btn-primary " name="submit" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+		</div>
+
+	
+
+
+	</div>
+</body>

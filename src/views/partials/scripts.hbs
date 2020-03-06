@@ -1,0 +1,65 @@
+<script>
+  // CODIGO PARA MENSAJES
+
+
+
+  // Mensaje de OK 
+  // Parametros titulo y detalle
+  function mensaje_ok(titulo,detalle) {
+    
+    swal.fire({
+      type: 'success',
+      title: titulo,
+      text: detalle ,
+      //confirmButtonColor: "#a90",
+      showConfirmButton: true,
+      backdrop: `
+        rgba(0,0,0,0.6)
+        center left
+        no-repeat
+        `
+    })
+    // Espera 5 segundos para que se pueda ver el mensaje
+    //setTimeout(() => {
+    //    window.location.href = destino
+    //}, 2000)
+    ;
+    
+  }
+</script>
+
+
+<script>
+    // DatePicker para seleccionar un año, mes y día
+    $(document).ready(function(){
+      var date_input=$('input[name="date_MMDDYYYY"]');
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      date_input.datepicker({
+        language: "es",
+        format: 'mm/dd/yyyy',
+        maxViewMode: 0,
+        container: container,
+        todayHighlight: true,        
+        autoclose: true,
+        todayBtn:true,
+        maxViewMode: 1,
+        minViewMode:0
+      })
+    })
+
+    // DatePicker para seleccionar un año y un mes
+    $(document).ready(function(){
+      var date_input=$('input[name="date_MMYYYY"]'); //our date input has the name "date"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      date_input.datepicker({
+        format: 'mm/yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+        todayBtn:true,
+        maxViewMode: 1,
+        minViewMode:1
+      })
+    })
+
+  </script>

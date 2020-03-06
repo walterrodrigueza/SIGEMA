@@ -1,0 +1,256 @@
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20"></body>
+<nav class="navbar navbar-dark bg-dark">
+	<a href="" class="navbar-brand mx-auto">Tramas Contables {{tipo_trama}}</a>
+</nav>
+
+<div class="container">
+
+
+
+	<script>
+		function ingresaClaveGICE(Factura, Año, Mes,Tipo_Trama) {
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-danger'
+				},
+				buttonsStyling: false,
+			})
+
+			swalWithBootstrapButtons.fire({
+
+				title: 'Ingresar número de control',
+				text: "Digite el número de control para la factura " + Factura + ":",
+				input: 'number',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ingresar',
+				cancelButtonText: 'Cancelar',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+					swalWithBootstrapButtons.fire(
+						'Listo!',
+						'El numero de control fue modificado para la factura ' + Factura,
+						'success'
+					)
+					// Espera 2 segundos para que se pueda ver el mensaje
+					setTimeout(() => {
+
+						$.ajax({
+							type: "POST",
+							url: "/Tramas/poneNumControl/",
+							data: { 'Factura': Factura, 'Num_Control': result.value, 'Año': Año, 'Mes': Mes , 'Tipo_Trama':Tipo_Trama}
+							, cache: false
+						});
+						window.location.href = "/Tramas"
+					}, 2000)
+
+
+				} else if (
+					// Read more about handling dismissals
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Cancelado',
+						'El número de control no fue modificado',
+						'error'
+					)
+
+				}
+			})
+		}
+
+		function ingresaCodigoSAP(Factura, Año, Mes,Tipo_Trama) {
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-danger'
+				},
+				buttonsStyling: false,
+			})
+
+			swalWithBootstrapButtons.fire({
+
+				title: 'Ingresar número de código SAP',
+				text: "Digite el número de código SAP para la factura " + Factura + ":",
+				input: 'number',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ingresar',
+				cancelButtonText: 'Cancelar',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+					swalWithBootstrapButtons.fire(
+						'Listo!',
+						'El numero de código SAP fue modificado para la factura ' + Factura,
+						'success'
+					)
+					// Espera 2 segundos para que se pueda ver el mensaje
+					setTimeout(() => {
+
+						$.ajax({
+							type: "POST",
+							url: "/Tramas/poneCodigoSAP/",
+							data: { 'Factura': Factura, 'CodigoSAP': result.value, 'Año': Año, 'Mes': Mes,'Tipo_Trama':Tipo_Trama }
+							, cache: false
+						});
+						window.location.href = "/Tramas"
+					}, 2000)
+
+
+				} else if (
+					// Read more about handling dismissals
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Cancelado',
+						'El código de SAP no fue modificado',
+						'error'
+					)
+
+				}
+			})
+		}
+
+		
+		function regenerarTramas() {	
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-danger'
+				},
+				buttonsStyling: false,
+			})
+			swalWithBootstrapButtons.fire({
+				title: 'Desea regenerar las tramas contables?',
+				text: "Deber tener los archivos de tramas cerrados!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Si, reprocesarlos!',
+				cancelButtonText: 'No, cancelar!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+					swalWithBootstrapButtons.fire(
+						'Listo!',
+						'Las tramas contables han sido reprocesadas',
+						'success'
+					)
+					// Espera 2 segundos para que se pueda ver el mensaje
+					setTimeout(() => {
+						window.location.href = "/Tramas/regeneraTramas"
+					}, 2000)
+				} else if (
+					// Read more about handling dismissals
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Cancelado',
+						'Las tramas no fueron reprocesadas',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
+
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-md-8 card">
+
+			<form class="card-body" href="/" method="post">
+				<h3 class="card-title">Consultar un periodo y tipo de trama:</h3>
+				<div class="form-group">
+					<!-- Date input -->
+					<label class="control-label" for="date">Perido</label>
+					<input class="form-control" id="date" name="date_MMYYYY" placeholder="MM/YYYY" type="text"
+						value="MM/AAAA" readonly />
+
+					<label for="tipo_trama">Trama:</label>
+					<select class="form-control" id="tipo_trama" name='tipo_trama'>
+						<option>CxP</option>
+						<option>GN</option>
+						<option>POSTPAGO-FACTURACION-COLONES</option>
+						<option>POSTPAGO-FACTURACION-COLONES-OTROS</option>
+						<option>POSTPAGO-FACTURACION-COLONES-RACSA</option>
+						<option>POSTPAGO-FACTURACION-DOLARES</option>
+						<option>POSTPAGO-FACTURACION-DOLARES-RACSA</option>
+						<option>PREPAGO-FACTURACION</option>
+						<option>PREPAGO-RECAUDACION</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<!-- Submit button -->
+					<button class="btn btn-primary " name="submit" type="submit">Buscar</button>
+				</div>
+			</form>
+			
+		</div>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 card">
+			<conteiner>
+				<br>
+				<h3 class="card-title">Reprocesar tramas contables:</h3>
+				<br>
+	
+				<a onclick="regenerarTramas()"><button name="btn_RegenerarTramas" type="button" class="btn btn-primary">Ejecutar</button></a>
+			</conteiner>
+
+			<conteiner>
+				<br>
+				<h3 class="card-title">Ingresar consecutivo:</h3>
+				<br>	
+				<a onclick="regenerarTramas()"><button name="btn_RegenerarTramas" type="button" class="btn btn-primary">Ejecutar</button></a>
+			</conteiner>
+			
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 text-center" style="	padding : 4px;
+					height : 800px;
+					overflow : auto; ">
+
+			<table class="table table-striped table-bordered" ;>
+				<tr>
+					<th>Tipo_Trama</th>
+					<th>Factura</th>
+					<th># Control</th>
+					<th>Codigo Sap</th>
+					<th>Operador</th>
+					<th>Año</th>
+					<th>Mes</th>
+					<th>Fecha</th>
+					<th>Monto</th>
+					<th>Moneda</th>
+				</tr>
+				{{#each registros}}
+				<tr>
+					<td>{{Tipo_Trama}}</td>
+					<td>{{Poid_Factura}}</td>
+					<td> <a onclick="ingresaClaveGICE('{{Poid_Factura}}','{{Año}}','{{Mes}}','{{Tipo_Trama}}')"><button
+								name="btn_enviaFISCO" type="button"
+								class="btn btn-outline-info">{{Num_Control}}</button></a></td>
+					<td> <a onclick="ingresaCodigoSAP('{{Poid_Factura}}','{{Año}}','{{Mes}}','{{Tipo_Trama}}')"><button
+								name="btn_enviaFISCO" type="button"
+								class="btn btn-outline-info">{{Codigo_SAP}}</button></a></td>
+					<td>{{idOperador}}</td>
+					<td>{{Año}}</td>
+					<td>{{Mes}}</td>
+					<td>{{Fecha}}</td>
+					<td>{{Monto}}</td>
+					<td>{{Moneda}}</td>
+				</tr>
+
+				{{/each}}
+			</table>
+		</div>
+
+
+
+
+	</div>
+</div>
