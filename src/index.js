@@ -24,11 +24,11 @@ require('./lib/passport');
 app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
-  defaultLayout: 'main',
-  layoutsDir: path.join(app.get('views'), 'layouts'),
-  partialsDir: path.join(app.get('views'), 'partials'),
-  extname: '.hbs',
-  helpers: require('./lib/handlebars')
+    defaultLayout: 'main',
+    layoutsDir: path.join(app.get('views'), 'layouts'),
+    partialsDir: path.join(app.get('views'), 'partials'),
+    extname: '.hbs',
+    helpers: require('./lib/handlebars')
 }))
 app.set('view engine', '.hbs');
 
@@ -36,15 +36,15 @@ app.set('view engine', '.hbs');
 
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Se almacena la sesion en la web y no en el servidor
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true//,
-  //cookie: { secure: true }
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true //,
+        //cookie: { secure: true }
 }));
 
 
@@ -60,27 +60,27 @@ app.use(validator());
 
 // Global variables
 app.use((req, res, next) => {
-  app.locals.message = req.flash('message');
-  app.locals.success = req.flash('success');
-  app.locals.user = req.user;
-   
+    app.locals.message = req.flash('message');
+    app.locals.success = req.flash('success');
+    app.locals.user = req.user;
 
-  // valida si el usuario es administrador
-  try {
-    if (global.usuario.id_Rol==1){
-      // Pone que es administrador
-      app.locals.administrador=true
-    }else{
-      app.locals.administrador=false
+
+    // valida si el usuario es administrador
+    try {
+        if (global.usuario.id_Rol == 1) {
+            // Pone que es administrador
+            app.locals.administrador = true
+        } else {
+            app.locals.administrador = false
+        }
+    } catch (e) {
+        // Pone que no es administrador
+        app.locals.administrador = false
     }
-  } catch (e) {
-    // Pone que no es administrador
-    app.locals.administrador=false
-  }
-  
-  console.log('app.locals.administrador',app.locals.administrador)
 
-  next();
+    console.log('app.locals.administrador', app.locals.administrador)
+
+    next();
 });
 
 // Routes
@@ -95,7 +95,7 @@ app.use('/Facturas2', require('./routes/facturas2'));
 //app.use('/Tramas', require('./routes/Tramas'));
 
 
-app.use('/usuarios_modifica', require('./routes/Usuarios/usuarios'));
+app.use('/usuarios', require('./routes/Usuarios/usuarios'));
 
 
 // Public
@@ -103,5 +103,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Starting
 app.listen(app.get('port'), () => {
-  console.log('Server is in port', app.get('port'));
+    console.log('Server is in port', app.get('port'));
 });

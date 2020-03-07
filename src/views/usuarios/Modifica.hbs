@@ -10,7 +10,7 @@
           <h3>Modificar Usuario</h3>
         </div>
         <div class="card-body">
-          <form action="/usuarios_modifica" method="POST">
+          <form action="/usuarios/Modifica" method="POST">
            
             <a onbeforeprint="mensaje_ok('Registro actualizado!','El usuario {{usuario.id_usuario}} fue actualizado','usuario_modifica/')"></a>
 
@@ -90,7 +90,7 @@
               <div class="col-md-12">
                 <td>
                 
-                  <button class="btn btn-success btn-block">Guardar cambios</button>
+                  <button class="btn btn-success btn-block" formmethod="post">Guardar cambios</button>
                   {{!--  
                   <a onsubmit="mensaje('Registro actualizado!','El usuario {{usuario.id_usuario}} fue actualizado','usuario_modifica/')"></a>
                   </a>
@@ -110,8 +110,8 @@
 
 <script>
   //Si el titulo del mensaje es diferente de 0, envia un mensaje de creacción exitosa
-  if ('{{usuario.mensaje_titulo}}'!='0'){
+  if ('{{mensaje.titulo}}'!='0'){
     // Envía mensaje via swal
-    mensaje_ok('{{usuario.mensaje_titulo}}','{{usuario.mensaje_detalle}}');
+    mensaje('{{mensaje.titulo}}','{{mensaje.detalle}}','{{mensaje.type}}');
   }
 </script>

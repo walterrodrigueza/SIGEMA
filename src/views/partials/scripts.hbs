@@ -5,20 +5,21 @@
 
   // Mensaje de OK 
   // Parametros titulo y detalle
-  function mensaje_ok(titulo,detalle) {
+  function mensaje(titulo,detalle,tipo) {
     
     swal.fire({
-      type: 'success',
-      title: titulo,
-      text: detalle ,
-      //confirmButtonColor: "#a90",
-      showConfirmButton: true,
-      backdrop: `
-        rgba(0,0,0,0.6)
-        center left
-        no-repeat
-        `
+    type: tipo,
+    title: titulo,
+    text: detalle ,
+    //confirmButtonColor: "#a90",
+    showConfirmButton: true,
+    backdrop: `
+      rgba(0,0,0,0.6)
+      center left
+      no-repeat
+      `
     })
+    
     // Espera 5 segundos para que se pueda ver el mensaje
     //setTimeout(() => {
     //    window.location.href = destino

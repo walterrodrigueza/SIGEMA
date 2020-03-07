@@ -1,0 +1,126 @@
+
+<div class="container p-6">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <HR width="50%">
+      <div class="card text-center">
+        <div class="card-header ">
+          <h3>Administra {{usuario.id_usuario}}</h3>
+        </div>
+        <div class="card-body">
+          <form action="/usuarios/CambiaPassword" method="POST">
+                      
+            
+            <div class="row">
+              <div class="col-md-4">
+                Usuario:
+              </div>
+              <div class="col-md-8">
+                <input type="text" name="id_usuario" placeholder="id Usuario"  value={{usuario.id_usuario}} maxlength = "50"  class="form-control" autocomplete="off" disabled required autofocus>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 align-bottom">
+                Nombre:
+              </div>
+              <div class="col-md-8">
+                <input type="text" name="nombre" placeholder="Nombre" value={{usuario.Nombre}} maxlength = "50" class="form-control" required >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                Primer apellido:
+              </div>
+              <div class="col-md-8">
+                <input type="text" name="primer_apellido" placeholder="Primer Apellido" value={{usuario.Apellido1}} maxlength = "50" class="form-control" required >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                Segundo apellido:
+              </div>
+              <div class="col-md-8">
+                <input type="text" name="segundo_apellido" placeholder="Segundo Apellido" value={{usuario.Apellido2}} maxlength = "50" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                Correo:
+              </div>
+              <div class="col-md-8">
+                <input type="email" name="correo" placeholder="Correo" value={{usuario.Correo}} maxlength = "50" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                Tel. Oficina
+              </div>
+              <div class="col-md-8">
+                <input type="number" name="tel_oficina" placeholder="Tel. Oficina" value={{usuario.Tel_Oficina}} min="10000000" max="99999999" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                Tel. Celular
+              </div>
+              <div class="col-md-8">
+                <input type="number" name="tel_celular" placeholder="Tel. Celular" value={{usuario.Tel_Celular}} min="10000000" max="99999999" class="form-control" required>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-4">
+                Rol:
+              </div>
+              <div class="col-md-8">
+                <input type="rol" name="rol" placeholder="rol" value={{usuario.Rol_Descripcion}} disabled class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row"></div>
+              Seleccione un rol:
+                <select id="rol" name="rol">
+                  {{#each roles}}
+                    <option value="{{roles.id_Rol}}">{{Descripcion}}</option>
+                  {{/each}}                  
+                </select>
+            </div>
+
+
+            <HR>
+            <div class="row">
+              <div class="col-md-12">
+                <td>
+                
+                  <button class="btn btn-success btn-block" formmethod="post">Guardar cambios</button>
+                  {{!--  
+                  <a onsubmit="mensaje('Registro actualizado!','El usuario {{usuario.id_usuario}} fue actualizado','usuario_modifica/')"></a>
+                  </a>
+                  --}}
+
+              </td>
+
+              </div>              
+            </div>            
+          </form>          
+        </div>        
+      </div>
+      <HR width="50%">            
+    </div>
+  </div>
+</div>
+
+
+<script>
+  //Si el titulo del mensaje es diferente de 0, envia un mensaje de creacción exitosa
+  if ('{{mensaje.titulo}}'!='0'){
+    // Envía mensaje via swal
+    mensaje('{{mensaje.titulo}}','{{mensaje.detalle}}','{{mensaje.type}}');
+  }
+</script>
