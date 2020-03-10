@@ -5,18 +5,20 @@
       <HR width="50%">
       <div class="card text-center">
         <div class="card-header ">
-          <h3>Administra {{usuario.id_usuario}}</h3>
+          <h3>
+              <a href="/usuarios/Administrar" class="navbar-brand mx-auto">Administra {{usuario.id_usuario}}</a>
+          </h3>
         </div>
+
         <div class="card-body">
-          <form action="/usuarios/CambiaPassword" method="POST">
-                      
+          <form action="/usuarios/Administrar_modifica_usuario" method="POST">                     
             
             <div class="row">
               <div class="col-md-4">
                 Usuario:
               </div>
               <div class="col-md-8">
-                <input type="text" name="id_usuario" placeholder="id Usuario"  value={{usuario.id_usuario}} maxlength = "50"  class="form-control" autocomplete="off" disabled required autofocus>
+                <input type="text" name="id_usuario" placeholder="id Usuario"  value={{usuario.id_usuario}} maxlength = "50"  class="form-control" autocomplete="off" readonly required autofocus>
               </div>
             </div>
 
@@ -73,45 +75,71 @@
                 <input type="number" name="tel_celular" placeholder="Tel. Celular" value={{usuario.Tel_Celular}} min="10000000" max="99999999" class="form-control" required>
               </div>
             </div>
-            
-            <div class="row">
-              <div class="col-md-4">
-                Rol:
-              </div>
-              <div class="col-md-8">
-                <input type="rol" name="rol" placeholder="rol" value={{usuario.Rol_Descripcion}} disabled class="form-control" required>
-              </div>
-            </div>
-
-            <div class="row"></div>
-              Seleccione un rol:
-                <select id="rol" name="rol">
-                  {{#each roles}}
-                    <option value="{{roles.id_Rol}}">{{Descripcion}}</option>
-                  {{/each}}                  
-                </select>
-            </div>
-
 
             <HR>
             <div class="row">
               <div class="col-md-12">
                 <td>
-                
                   <button class="btn btn-success btn-block" formmethod="post">Guardar cambios</button>
-                  {{!--  
-                  <a onsubmit="mensaje('Registro actualizado!','El usuario {{usuario.id_usuario}} fue actualizado','usuario_modifica/')"></a>
-                  </a>
-                  --}}
+                </td>
+              </div> 
+            </div>
+          </form>      
 
-              </td>
 
-              </div>              
-            </div>            
-          </form>          
+
+
+          <form action="/usuarios/Administrar_agrega_rol" method="POST">          
+
+            <div class="row">
+              <div class="col-md-12">
+                <HR width="100%">
+                Roles
+                
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5">
+                Existentes
+                <select name="rol" class="custom-select" size="4">
+                  {{#each roles}}
+                  <option value="{{id_Rol}}">{{Descripcion}}</option>
+                  {{/each}}                   
+                </select>
+
+              </div>
+              <div class="col-md-2">
+                <div class="text-center">
+                  <HR width="0%">
+                  <button class="btn btn-success" formmethod="post" onmouseover="myScript">+</button>
+                </div>
+                <div class="row">
+                  <HR width="10%">
+                </div>
+          </form>
+
+          <form action="/usuarios/Administrar_quita_rol" method="POST">
+                
+                <div class="text-center">
+                  <button class="btn btn-danger" formmethod="post">-</button>
+                </div>
+              </div>
+              <div class="col-md-5">
+                Asignados
+                <select name="rol2" class="custom-select" size="4">
+                  {{#each roles_usuario}}
+                  <option value="{{id_Rol}}">{{Descripcion}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+          </form>
+
+          
         </div>        
+               
       </div>
-      <HR width="50%">            
     </div>
   </div>
 </div>
@@ -123,4 +151,6 @@
     // Envía mensaje via swal
     mensaje('{{mensaje.titulo}}','{{mensaje.detalle}}','{{mensaje.type}}');
   }
+
+  
 </script>

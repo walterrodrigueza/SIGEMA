@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 
     // valida si el usuario es administrador
     try {
-        if (global.usuario.id_Rol == 1) {
+        if (global.usuarioGlobal.id_Rol == 1) {
             // Pone que es administrador
             app.locals.administrador = true
         } else {
@@ -78,7 +78,8 @@ app.use((req, res, next) => {
         app.locals.administrador = false
     }
 
-    console.log('app.locals.administrador', app.locals.administrador)
+    // Muestra si es usuario administrador o no
+    //console.log('app.locals.administrador', app.locals.administrador)
 
     next();
 });
